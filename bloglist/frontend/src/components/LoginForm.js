@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import loginService from '../services/login';
 import { setUser } from '../reducers/userReducer';
 import {
@@ -8,6 +9,7 @@ import {
 } from '../reducers/notificationReducer';
 
 const LoginForm = (props) => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -23,6 +25,7 @@ const LoginForm = (props) => {
           JSON.stringify(user)
         );
         dispatch(setUser(user));
+        history.push('/');
       })
       .catch((exception) => {
         dispatch(

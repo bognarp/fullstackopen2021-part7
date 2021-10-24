@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react';
 import Blog from './components/Blog';
+import Navbar from './components/Navbar';
 import Notification from './components/Notification';
 import LoginForm from './components/LoginForm';
 import BlogForm from './components/BlogForm';
+import Users from './components/Users';
 import { initializeBlogs } from './reducers/blogReducer';
-import {
-  loadUserFromLocalStorage,
-  resetUser,
-} from './reducers/userReducer';
+import { loadUserFromLocalStorage } from './reducers/userReducer';
 import { useSelector, useDispatch } from 'react-redux';
+
+import { Switch, Route } from 'react-router-dom';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -24,31 +25,40 @@ const App = () => {
     dispatch(loadUserFromLocalStorage());
   }, [dispatch]);
 
-  const handleLogout = () => {
-    dispatch(resetUser());
-  };
-
-  if (user === null) {
+  if (!user) {
     return (
-      <LoginForm>
-        <Notification />
-      </LoginForm>
+      <Switch>
+        <Route path="/">
+          <LoginForm>
+            <Notification />
+          </LoginForm>
+        </Route>
+      </Switch>
     );
   }
 
   return (
     <div>
-      logged in as {user.name}
-      <button onClick={handleLogout}>logout</button>
-      <BlogForm>
-        <Notification />
-      </BlogForm>
-      <h2>Blogs</h2>
-      <div id="blog-list">
-        {blogs.map((blog) => (
-          <Blog key={blog.id} blog={blog} user={user} />
-        ))}
-      </div>
+      <Navbar />
+
+      <Switch>
+        <Route path="/users">
+          <Users />
+        </Route>
+        <Route path="/">
+          <>
+            <h2>Blogs</h2>
+            <BlogForm>
+              <Notification />
+            </BlogForm>
+            <div id="blog-list">
+              {blogs.map((blog) => (
+                <Blog key={blog.id} blog={blog} user={user} />
+              ))}
+            </div>
+          </>
+        </Route>
+      </Switch>
     </div>
   );
 };
