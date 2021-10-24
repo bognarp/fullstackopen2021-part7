@@ -1,17 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import blogService from '../services/blogs';
+import {
+  setNotification,
+  resetNotification,
+} from '../reducers/notificationReducer';
+import { createNewBlog } from '../reducers/blogReducer';
+import Togglable from './Togglable';
 
 const BlogForm = (props) => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   const [blogTitle, setBlogTitle] = useState('');
   const [blogAuthor, setBlogAuthor] = useState('');
   const [blogUrl, setBlogUrl] = useState('');
 
+  const blogFormRef = useRef();
+
   const handleBlogCreation = (event) => {
     event.preventDefault();
-    props.onSubmit({
+    blogService.setToken(user.token);
+
+    const blog = {
       title: blogTitle,
       author: blogAuthor,
       url: blogUrl,
-    });
+    };
+
+    dispatch(createNewBlog(blog))
+      .then(() => {
+        dispatch(
+          setNotification(
+            'success',
+            `Added new blog: ${blog.title} by ${blog.author}`
+          )
+        );
+        setTimeout(() => {
+          blogFormRef.current.toggleVisibility();
+        }, 3000);
+      })
+      .catch((exception) => {
+        dispatch(
+          setNotification('error', exception.response.data.error)
+        );
+
+        setTimeout(() => {
+          dispatch(resetNotification());
+        }, 5000);
+      });
+
     setBlogAuthor('');
     setBlogTitle('');
     setBlogUrl('');
@@ -28,7 +65,7 @@ const BlogForm = (props) => {
   };
 
   return (
-    <div>
+    <Togglable buttonLabel="create new blog" ref={blogFormRef}>
       <h2>Create new blog</h2>
       {props.children}
       <form onSubmit={handleBlogCreation}>
@@ -59,9 +96,11 @@ const BlogForm = (props) => {
             onChange={handleUrlChange}
           />
         </div>
-        <button id="create-button" type="submit">create</button>
+        <button id="create-button" type="submit">
+          create
+        </button>
       </form>
-    </div>
+    </Togglable>
   );
 };
 

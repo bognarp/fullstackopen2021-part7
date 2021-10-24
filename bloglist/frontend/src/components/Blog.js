@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import blogService from '../services/blogs';
+import { removeBlogById, likeBlog } from '../reducers/blogReducer';
 
 const Blog = (props) => {
+  const dispatch = useDispatch();
   const blog = props.blog;
   const user = props.user;
   const [expanded, setExpanded] = useState(false);
@@ -21,16 +25,27 @@ const Blog = (props) => {
     setExpanded(!expanded);
   };
 
-  const addLike = () => {
-    const updatedBlog = {
+  const like = () => {
+    const likedBlog = {
       ...blog,
       likes: blog.likes + 1,
     };
-    props.onLike(updatedBlog);
+
+    dispatch(likeBlog(likedBlog)).catch((ex) => {
+      console.log(ex.response.data);
+    });
   };
 
-  const handleDelete = () => {
-    props.onRemove(blog);
+  const removeBlog = () => {
+    if (
+      window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)
+    ) {
+      blogService.setToken(user.token);
+
+      dispatch(removeBlogById(blog.id)).catch((ex) => {
+        console.log(ex.response.data);
+      });
+    }
   };
 
   return (
@@ -45,12 +60,12 @@ const Blog = (props) => {
         <strong>Author</strong>: {blog.author} <br />
         <strong>Url</strong>: {blog.url} <br />
         <strong>Likes</strong>: {blog.likes}{' '}
-        <button id="like-button" onClick={addLike}>
+        <button id="like-button" onClick={like}>
           like
         </button>{' '}
         <br />
         {user.username === blog.user.username ? (
-          <button id="remove-button" onClick={handleDelete}>
+          <button id="remove-button" onClick={removeBlog}>
             remove
           </button>
         ) : (
@@ -64,8 +79,6 @@ const Blog = (props) => {
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  onLike: PropTypes.func.isRequired,
-  onRemove: PropTypes.func.isRequired,
 };
 
 export default Blog;

@@ -1,12 +1,38 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import loginService from '../services/login';
+import { setUser } from '../reducers/userReducer';
+import {
+  setNotification,
+  resetNotification,
+} from '../reducers/notificationReducer';
 
 const LoginForm = (props) => {
+  const dispatch = useDispatch();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = (event) => {
     event.preventDefault();
-    props.onSubmit({ username, password });
+
+    loginService
+      .login({ username, password })
+      .then((user) => {
+        window.localStorage.setItem(
+          'loggedBlogAppUser',
+          JSON.stringify(user)
+        );
+        dispatch(setUser(user));
+      })
+      .catch((exception) => {
+        dispatch(
+          setNotification('error', exception.response.data.error)
+        );
+
+        setTimeout(() => {
+          dispatch(resetNotification());
+        }, 5000);
+      });
   };
 
   const handleUsername = ({ target }) => {
