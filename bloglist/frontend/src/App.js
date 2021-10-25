@@ -37,26 +37,28 @@ const App = () => {
   return (
     <div>
       <Navbar />
-      <Switch>
-        <Route path="/users/:id">
-          <User />
-        </Route>
-        <Route path="/users">
-          <Users />
-        </Route>
-        <Route path="/blogs/:id">
-          <Blog />
-        </Route>
-        <Route path="/">
-          <>
-            <h2>Blogs</h2>
-            <BlogForm>
-              <Notification />
-            </BlogForm>
-            <Blogs />
-          </>
-        </Route>
-      </Switch>
+      <div className="bg-red-100 px-12 py-3">
+        <Switch>
+          <Route path="/users/:id">
+            <User />
+          </Route>
+          <Route path="/users">
+            <Users />
+          </Route>
+          <Route path="/blogs/:id">
+            <Blog />
+          </Route>
+          <Route path="/">
+            <>
+              <h2>Blogs</h2>
+              <BlogForm>
+                <Notification />
+              </BlogForm>
+              <Blogs />
+            </>
+          </Route>
+        </Switch>
+      </div>
     </div>
   );
 };

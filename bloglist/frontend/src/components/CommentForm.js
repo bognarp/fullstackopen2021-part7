@@ -27,7 +27,7 @@ const CommentForm = ({ blog }) => {
           value={comment}
           onChange={handleCommentInput}
         />
-        <button type="submit">comment</button>
+        <button className="btn-blue-xs" type="submit">comment</button>
       </form>
     </div>
   );

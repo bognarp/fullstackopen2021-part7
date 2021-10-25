@@ -90,7 +90,7 @@ const BlogForm = (props) => {
             onChange={handleUrlChange}
           />
         </div>
-        <button id="create-button" type="submit">
+        <button className="btn-green" id="create-button" type="submit">
           create
         </button>
       </form>

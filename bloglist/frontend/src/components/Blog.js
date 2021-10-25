@@ -59,19 +59,19 @@ const Blog = () => {
     <div>
       <h1>{blog.title}</h1>
       <h3>Author: {blog.author}</h3>
-      <a href={`//${blog.url}`} target="_blank" rel="noreferrer">
+      <a href={`${blog.url}`} target="_blank" rel="noreferrer">
         {blog.url}
       </a>
       <br />
       <strong>Likes</strong>: {blog.likes}{' '}
-      <button id="like-button" onClick={like}>
+      <button className="btn-blue-xs" id="like-button" onClick={like}>
         like
       </button>{' '}
       <p>Added by {blog.user.username}</p>
       <br />
       {user.username === blog.user.username ? (
-        <button id="remove-button" onClick={removeBlog}>
-          remove
+        <button className="btn-purple" id="remove-button" onClick={removeBlog}>
+          delete
         </button>
       ) : null}
       <h4>Comments</h4>
