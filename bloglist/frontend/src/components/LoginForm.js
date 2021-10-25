@@ -3,10 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import loginService from '../services/login';
 import { setUser } from '../reducers/userReducer';
-import {
-  setNotification,
-  resetNotification,
-} from '../reducers/notificationReducer';
+import { setNotification } from '../reducers/notificationReducer';
 
 const LoginForm = (props) => {
   const history = useHistory();
@@ -29,12 +26,8 @@ const LoginForm = (props) => {
       })
       .catch((exception) => {
         dispatch(
-          setNotification('error', exception.response.data.error)
+          setNotification('error', exception.response.data.error, 5)
         );
-
-        setTimeout(() => {
-          dispatch(resetNotification());
-        }, 5000);
       });
   };
 

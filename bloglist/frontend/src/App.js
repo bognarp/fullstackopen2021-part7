@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
+import Blogs from './components/Blogs';
 import Blog from './components/Blog';
 import Navbar from './components/Navbar';
 import Notification from './components/Notification';
 import LoginForm from './components/LoginForm';
 import BlogForm from './components/BlogForm';
 import Users from './components/Users';
+import User from './components/User';
 import { initializeBlogs } from './reducers/blogReducer';
 import { loadUserFromLocalStorage } from './reducers/userReducer';
 import { useSelector, useDispatch } from 'react-redux';
@@ -13,11 +15,6 @@ import { Switch, Route } from 'react-router-dom';
 
 const App = () => {
   const dispatch = useDispatch();
-  const blogs = useSelector((state) => {
-    return state.blogs.sort((objA, objB) => {
-      return objB.likes - objA.likes;
-    });
-  });
   const user = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -40,10 +37,15 @@ const App = () => {
   return (
     <div>
       <Navbar />
-
       <Switch>
+        <Route path="/users/:id">
+          <User />
+        </Route>
         <Route path="/users">
           <Users />
+        </Route>
+        <Route path="/blogs/:id">
+          <Blog />
         </Route>
         <Route path="/">
           <>
@@ -51,11 +53,7 @@ const App = () => {
             <BlogForm>
               <Notification />
             </BlogForm>
-            <div id="blog-list">
-              {blogs.map((blog) => (
-                <Blog key={blog.id} blog={blog} user={user} />
-              ))}
-            </div>
+            <Blogs />
           </>
         </Route>
       </Switch>

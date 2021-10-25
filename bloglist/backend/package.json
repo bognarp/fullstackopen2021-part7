@@ -1,0 +1,36 @@
+{
+  "name": "fullstackopen2021_part4",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node index.js",
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "debug": "cross-env NODE_ENV=development nodemon --inspect index.js",
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
+    "start:test": "cross-env NODE_ENV=test node index.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
+    "mongoose": "^5.13.9",
+    "mongoose-unique-validator": "^2.0.3"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.0.2",
+    "cross-env": "^7.0.3",
+    "jest": "^27.2.2",
+    "nodemon": "^2.0.13",
+    "supertest": "^6.1.6"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  }
+}

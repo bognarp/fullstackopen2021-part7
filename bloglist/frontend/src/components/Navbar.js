@@ -27,7 +27,7 @@ const Navbar = () => {
       </Link>
       {user ? (
         <>
-          <em>logged in as {user.name}</em>
+          <em>logged in as {user.username}</em>
           <button onClick={handleLogout}>logout</button>
         </>
       ) : (

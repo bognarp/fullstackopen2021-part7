@@ -1,10 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import blogService from '../services/blogs';
-import {
-  setNotification,
-  resetNotification,
-} from '../reducers/notificationReducer';
+import { setNotification } from '../reducers/notificationReducer';
 import { createNewBlog } from '../reducers/blogReducer';
 import Togglable from './Togglable';
 
@@ -32,7 +29,8 @@ const BlogForm = (props) => {
         dispatch(
           setNotification(
             'success',
-            `Added new blog: ${blog.title} by ${blog.author}`
+            `Added new blog: ${blog.title} by ${blog.author}`,
+            3
           )
         );
         setTimeout(() => {
@@ -41,12 +39,8 @@ const BlogForm = (props) => {
       })
       .catch((exception) => {
         dispatch(
-          setNotification('error', exception.response.data.error)
+          setNotification('error', exception.response.data.error, 5)
         );
-
-        setTimeout(() => {
-          dispatch(resetNotification());
-        }, 5000);
       });
 
     setBlogAuthor('');

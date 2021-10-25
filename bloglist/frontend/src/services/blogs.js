@@ -31,10 +31,27 @@ const remove = async (blogId) => {
 };
 
 const update = async (blogId, updatedBlog) => {
-  const response = await axios.put(`${baseUrl}/${blogId}`, updatedBlog);
+  const response = await axios.put(
+    `${baseUrl}/${blogId}`,
+    updatedBlog
+  );
   return response.data;
 };
 
-const blogsService = { getAll, create, update, remove, setToken };
+const comment = async (blogId, comment) => {
+  const response = await axios.post(`${baseUrl}/${blogId}/comments`, {
+    comment,
+  });
+  return response.data;
+};
+
+const blogsService = {
+  getAll,
+  create,
+  update,
+  remove,
+  comment,
+  setToken,
+};
 
 export default blogsService;

@@ -1,29 +1,27 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import blogService from '../services/blogs';
-import { removeBlogById, likeBlog } from '../reducers/blogReducer';
+import CommentForm from './CommentForm';
+import {
+  removeBlogById,
+  updateBlog,
+  initializeBlogs,
+} from '../reducers/blogReducer';
+import { useParams, useHistory } from 'react-router';
 
-const Blog = (props) => {
+const Blog = () => {
   const dispatch = useDispatch();
-  const blog = props.blog;
-  const user = props.user;
-  const [expanded, setExpanded] = useState(false);
+  const history = useHistory();
+  const id = useParams().id;
+  const blogs = useSelector((state) => state.blogs);
+  const blog = blogs.find((b) => b.id === id);
+  const user = useSelector((state) => state.user);
 
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5,
-  };
-
-  const visible = { display: expanded ? 'none' : '' };
-  const hidden = { display: expanded ? '' : 'none' };
-
-  const toggleExpansion = () => {
-    setExpanded(!expanded);
-  };
+  useEffect(() => {
+    if (blogs.length === 0) {
+      dispatch(initializeBlogs);
+    }
+  }, [dispatch]);
 
   const like = () => {
     const likedBlog = {
@@ -31,7 +29,7 @@ const Blog = (props) => {
       likes: blog.likes + 1,
     };
 
-    dispatch(likeBlog(likedBlog)).catch((ex) => {
+    dispatch(updateBlog(likedBlog)).catch((ex) => {
       console.log(ex.response.data);
     });
   };
@@ -45,40 +43,46 @@ const Blog = (props) => {
       dispatch(removeBlogById(blog.id)).catch((ex) => {
         console.log(ex.response.data);
       });
+      history.push('/');
     }
   };
 
+  if (blogs.length === 0) {
+    return null;
+  }
+
+  if (!blog) {
+    return <p>Invalid blog</p>;
+  }
+
   return (
-    <div style={blogStyle}>
-      <div style={visible} className="simpleView">
-        {blog.title} {blog.author}
-        <button onClick={toggleExpansion}>view</button>
-      </div>
-      <div style={hidden} className="extendedView">
-        <button onClick={toggleExpansion}>hide</button> <br />
-        <strong>Title</strong>: {blog.title} <br />
-        <strong>Author</strong>: {blog.author} <br />
-        <strong>Url</strong>: {blog.url} <br />
-        <strong>Likes</strong>: {blog.likes}{' '}
-        <button id="like-button" onClick={like}>
-          like
-        </button>{' '}
-        <br />
-        {user.username === blog.user.username ? (
-          <button id="remove-button" onClick={removeBlog}>
-            remove
-          </button>
-        ) : (
-          <></>
-        )}
-      </div>
+    <div>
+      <h1>{blog.title}</h1>
+      <h3>Author: {blog.author}</h3>
+      <a href={`//${blog.url}`} target="_blank" rel="noreferrer">
+        {blog.url}
+      </a>
+      <br />
+      <strong>Likes</strong>: {blog.likes}{' '}
+      <button id="like-button" onClick={like}>
+        like
+      </button>{' '}
+      <p>Added by {blog.user.username}</p>
+      <br />
+      {user.username === blog.user.username ? (
+        <button id="remove-button" onClick={removeBlog}>
+          remove
+        </button>
+      ) : null}
+      <h4>Comments</h4>
+      <CommentForm blog={blog} />
+      <ul>
+        {blog.comments.map((comment, i) => (
+          <li key={i}>{comment}</li>
+        ))}
+      </ul>
     </div>
   );
-};
-
-Blog.propTypes = {
-  blog: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
 };
 
 export default Blog;
