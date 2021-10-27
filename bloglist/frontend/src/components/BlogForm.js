@@ -59,39 +59,59 @@ const BlogForm = (props) => {
   };
 
   return (
-    <Togglable buttonLabel="create new blog" ref={blogFormRef}>
-      <h2>Create new blog</h2>
+    <Togglable buttonLabel="submit new blog" ref={blogFormRef}>
       {props.children}
-      <form onSubmit={handleBlogCreation}>
-        <div>
-          title
+      <form className="w-1/2 mt-3" onSubmit={handleBlogCreation}>
+        <div className="mb-3">
+          <label
+            htmlFor="title"
+            className="text-sm font-medium text-gray-900 block mb-1"
+          >
+            Title
+          </label>
           <input
-            id="title"
             type="text"
+            id="title"
+            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
+            required=""
             value={blogTitle}
             onChange={handleTitleChange}
           />
         </div>
-        <div>
-          author
+        <div className="mb-3">
+          <label
+            htmlFor="author"
+            className="text-sm font-medium text-gray-900 block mb-1"
+          >
+            Author
+          </label>
           <input
-            id="author"
             type="text"
+            id="author"
+            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
+            required=""
             value={blogAuthor}
             onChange={handleAuthorChange}
           />
         </div>
-        <div>
-          url
+        <div className="mb-3">
+          <label
+            htmlFor="url"
+            className="text-sm font-medium text-gray-900 block mb-1"
+          >
+            Url
+          </label>
           <input
-            id="url"
             type="text"
+            id="url"
+            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
+            required=""
             value={blogUrl}
             onChange={handleUrlChange}
           />
         </div>
-        <button className="btn-green" id="create-button" type="submit">
-          create
+        <button type="submit" className="btn-green">
+          Submit
         </button>
       </form>
     </Togglable>

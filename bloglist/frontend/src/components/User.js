@@ -28,7 +28,7 @@ const User = () => {
       <h2>User profile</h2>
       <p>name: {user.name}</p>
       <p>username: {user.username}</p>
-      <h3>Added blogs:</h3>
+      <h3>Submitted blogs:</h3>
       <ul className="list-disc list-inside">
         {user.blogs.map((blog) => (
           <li key={blog.id}>{blog.title}</li>

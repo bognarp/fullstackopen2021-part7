@@ -35,9 +35,12 @@ const App = () => {
   }
 
   return (
-    <div>
+    <>
       <Navbar />
-      <div className="bg-red-100 px-12 py-3">
+      <div
+        id="main-container"
+        className="bg-gray-200 px-12 py-3 h-full"
+      >
         <Switch>
           <Route path="/users/:id">
             <User />
@@ -59,7 +62,7 @@ const App = () => {
           </Route>
         </Switch>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -4,12 +4,16 @@
 @tailwind utilities;
 
 @layer base {
-  html {
-    @apply h-full bg-gray-50;
+  /* * {
+    @apply border border-red-600 p-1;
+  } */
+
+  html,
+  body,
+  #root {
+    @apply h-full flex flex-col;
   }
-  body {
-    @apply h-full;
-  }
+
   h1 {
     @apply text-3xl my-2 font-bold;
   }
@@ -31,7 +35,7 @@
   .btn-purple {
     @apply bg-pink-500 text-white hover:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all;
   }
-	.btn-green {
+  .btn-green {
     @apply bg-green-500 text-white hover:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all;
   }
 }

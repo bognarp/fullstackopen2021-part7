@@ -14,59 +14,53 @@ const Navbar = () => {
   };
 
   return (
-    <div>
-      <nav className="relative flex flex-wrap items-center justify-between px-2 py-2 bg-indigo-500">
-        <div className="container px-8 mx-auto flex flex-wrap items-center justify-between">
-          <div className="w-full relative flex justify-between lg:w-auto  px-4 lg:static lg:block lg:justify-start">
-            <ul className="flex flex-col lg:flex-row list-none ml-auto">
-              <li className="nav-item">
-                <Link
-                  className="px-3 py-2 flex items-center text-s uppercase font-bold leading-snug text-white hover:opacity-75 no-underline hover:underline"
-                  to="/"
+    <>
+      <nav className="flex flex-wrap  sm:flex-row flex-col items-center content-center justify-between px-2 py-2 bg-indigo-500">
+        <ul className="flex sm:flex-row flex-col list-none">
+          <li className="nav-item">
+            <Link
+              className="px-3 py-2 flex items-center text-s uppercase font-bold leading-snug text-white hover:opacity-75 no-underline hover:underline"
+              to="/"
+            >
+              blogs
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
+              className="px-3 py-2 flex items-center text-s uppercase font-bold leading-snug text-white hover:opacity-75 no-underline hover:underline"
+              to="/users"
+            >
+              users
+            </Link>
+          </li>
+        </ul>
+        <ul className="flex sm:flex-row flex-col items-center content-center list-none">
+          <li className="nav-item flex sm:flex-row flex-col">
+            {user ? (
+              <>
+                <span className="flex items-center px-3 py-2 font-light text-xs text-white">
+                  logged in as {user.username}
+                </span>
+                <button
+                  onClick={handleLogout}
+                  className="btn-purple"
+                  type="button"
                 >
-                  blogs
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  className="px-3 py-2 flex items-center text-s uppercase font-bold leading-snug text-white hover:opacity-75 no-underline hover:underline"
-                  to="/users"
-                >
-                  users
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div className="lg:flex flex-grow items-center">
-            <ul className="flex flex-col lg:flex-row list-none ml-auto">
-              <li className="nav-item">
-                {user ? (
-                  <>
-                    <em className="px-3 text-s text-white">
-                      logged in as {user.username}
-                    </em>
-                    <button
-                      onClick={handleLogout}
-                      className="btn-purple"
-                      type="button"
-                    >
-                      logout
-                    </button>
-                  </>
-                ) : (
-                  <Link
-                    className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
-                    to="/login"
-                  >
-                    login
-                  </Link>
-                )}
-              </li>
-            </ul>
-          </div>
-        </div>
+                  logout
+                </button>
+              </>
+            ) : (
+              <Link
+                className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
+                to="/login"
+              >
+                login
+              </Link>
+            )}
+          </li>
+        </ul>
       </nav>
-    </div>
+    </>
   );
 };
 
